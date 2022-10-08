@@ -18,30 +18,5 @@ import java.util.Map;
  */
 public interface ReadOnlyLabelMapper extends BaseMapper<Label>, PostgresPageMapper<Label> {
 
-
-    List<String> selectExplain(@Param("sql") String sql);
-
-    List<Label> selectOrderRunOrder();
-
-    List<String> selectAddressSql(@Param("sql") String sql);
-
-    Long selectSqlCount(@Param("sql") String sql);
-
-    Map<String, Object> selectMapSql(@Param("sql") String sql);
-
-    List<Map<String, Object>> selectListMapSql(@Param("sql") String sql);
-
-    Boolean selectCondition(@Param("condition") String condition);
-
-    List<Label> selectOwnLabels(String owner);
-
-    List<Label> selectUserAllLabels(@Param("owner") String owner, @Param("list") List<String> list);
-
-    int selectCountByOwner(@Param("owner") String owner, @Param("list") List<String> list);
-
     List<Label> selectsByName(List<String> list);
-
-    List<Label> selectPendingLabel();
-
-    List<String> selectMarkTypeBySource(String source);
 }

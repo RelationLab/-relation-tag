@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relation.tag.mapper.primary.ContractMapper">
+    <sql id="TableName">contract</sql>
+
+    <select id="selectByContractAddresses" resultType="com.relation.tag.entity.Contract">
+        select id,
+               contract_address,
+               symbol,
+               full_name,
+               decimals,
+               type,
+               status,
+               owner,
+               creator
+        from contract where contract_address in (<foreach collection="list" item="item" separator=",">
+        #{item}
+    </foreach> )
+    </select>
+</mapper>

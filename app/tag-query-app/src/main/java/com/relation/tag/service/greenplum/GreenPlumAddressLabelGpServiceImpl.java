@@ -1,10 +1,10 @@
-package com.relation.tag.manager.service.greenplum;
+package com.relation.tag.service.greenplum;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.relation.tag.entity.AddressLabelGp;
 import com.relation.tag.entity.Label;
 import com.relation.tag.mapper.greenplum.GreenplumAddressLabelGpMapper;
-import com.relation.tag.manager.service.IAddressLabelGpService;
+import com.relation.tag.service.IAddressLabelGpService;
 import com.relation.tag.vo.AddressLabelVO;
 import org.springframework.stereotype.Service;
 

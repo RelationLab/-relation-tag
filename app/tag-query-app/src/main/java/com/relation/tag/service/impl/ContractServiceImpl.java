@@ -1,8 +1,8 @@
-package com.relation.tag.manager.service.impl;
+package com.relation.tag.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.relation.tag.entity.Contract;
-import com.relation.tag.manager.service.IContractService;
+import com.relation.tag.service.IContractService;
 import com.relation.tag.mapper.primary.ContractMapper;
 import org.springframework.boot.extension.annotation.DataCache;
 import org.springframework.boot.extension.annotation.Query;

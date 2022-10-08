@@ -1,7 +1,7 @@
-package com.relation.tag.manager.service.readOnly;
+package com.relation.tag.service.readOnly;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.relation.tag.manager.service.IUserInfoService;
+import com.relation.tag.service.IUserInfoService;
 import com.relation.tag.mapper.readOnly.ReadOnlyUserInfoMapper;
 import com.relation.tag.vo.UserInfo;
 import org.springframework.boot.extension.annotation.Query;

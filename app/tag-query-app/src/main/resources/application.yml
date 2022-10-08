@@ -24,6 +24,9 @@ spring:
       filters: stat,config
 
     read-only:
+      url: jdbc:postgresql://${READ_ONLY_DB_HOST:localhost}:${READ_ONLY_DB_PORT:5432}/${READ_ONLY_DB_NAME:postgres}?currentSchema=public
+      username: ${READ_ONLY_DB_USERNAME:readpostgres}
+      password: ${READ_ONLY_DB_PASSWORD:hojil@123!}
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: org.postgresql.Driver
       #      druid:
@@ -33,6 +36,7 @@ spring:
       query-timeout: 6000
       transaction-query-timeout: 6000
       remove-abandoned-timeout: 1800
+      max-wait: 5000000
       filters: stat,config
 
     greenplum:

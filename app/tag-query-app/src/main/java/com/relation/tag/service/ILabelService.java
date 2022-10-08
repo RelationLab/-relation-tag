@@ -1,4 +1,4 @@
-package com.relation.tag.manager.service;
+package com.relation.tag.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.relation.tag.entity.Label;

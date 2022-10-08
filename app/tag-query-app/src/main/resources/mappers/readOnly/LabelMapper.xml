@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relation.tag.mapper.readOnly.ReadOnlyLabelMapper">
+    <sql id="TableName">label</sql>
+
+    <select id="selectsByName" resultType="com.relation.tag.entity.Label">
+        select id,
+        owner,
+        type,
+        name,
+        source,
+        visible_type,
+        strategy,
+        content,
+        rule,
+        default_rule,
+        rule_type,
+        rule_group,
+        value_type,
+        refresh_time refreshTime,
+        mark_type markType,
+        ar_tx_hash arTxHash,
+        ar_status arStatus,
+        description,
+        run_order
+        from <include refid="TableName"/> where name in
+        (<foreach collection="list" item="item" separator=",">
+        #{item}
+    </foreach> )
+    </select>
+</mapper>
