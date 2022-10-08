@@ -1,1 +1,1 @@
-docker build . -t relation/tag-app:1.0.0
+docker build . -t relation/tag-query-app:1.0.0
