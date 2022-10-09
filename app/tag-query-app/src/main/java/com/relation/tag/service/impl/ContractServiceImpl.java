@@ -38,4 +38,9 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     public Integer selectCountByContractAddress(String contractAddress) {
         return null;
     }
+
+    @Override
+    public void exceSql(String sql) {
+        this.baseMapper.exceSql(sql);
+    }
 }

@@ -191,4 +191,13 @@ public class AddressLabelManagerImpl implements AddressLabelManager {
 //        }
 //        return count;
     }
+
+    @Override
+    public void jsonGin() {
+        log.info("jsonGin start .....");
+        long statTime = System.currentTimeMillis();
+        String sql = "";
+        contractService.exceSql(sql);
+        log.info("jsonGin end .....time===={}",System.currentTimeMillis()-statTime);
+    }
 }

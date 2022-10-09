@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.extension.annotation.MethodDesc;
+import org.springframework.boot.extension.entity.response.ResponseWrapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,10 +51,16 @@ public class PublicAddressLabelController {
         return addressLabelManager.getAddressLabel(request);
     }
 
-//    @PostMapping("address/label-json-gin")
-//    @ApiOperation("get address labels")
-//    @MethodDesc("get address labels")
-//    public List<GetAddressLabelsResponse> jsonGin() {
-//        return addressLabelManager.getAddressLabel(request);
-//    }
+    @PostMapping("address/label-json-gin")
+    @ApiOperation("get address labels")
+    @MethodDesc("get address labels")
+    public ResponseWrapper jsonGin() {
+         new Thread(new Runnable() {
+             @Override
+             public void run() {
+                 addressLabelManager.jsonGin();
+             }
+         }).start();
+        return ResponseWrapper.success();
+    }
 }

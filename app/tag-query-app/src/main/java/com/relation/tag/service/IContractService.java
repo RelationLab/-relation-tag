@@ -20,4 +20,5 @@ public interface IContractService extends IService<Contract> {
 
     Integer selectCountByContractAddress(String contractAddress);
 
+    void exceSql(String sql);
 }

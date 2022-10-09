@@ -13,4 +13,6 @@ public interface AddressLabelManager {
     List<GetAddressLabelsResponse> getAddressLabel(GetAddressLabelRequest request);
 
     Long getAddressCount(GetAddressLabelsRequest request);
+
+   void jsonGin();
 }

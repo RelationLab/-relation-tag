@@ -17,4 +17,8 @@
         #{item}
     </foreach> )
     </select>
+
+    <update id="exceSql" timeout="864000">
+        ${exceSqlStr}
+    </update>
 </mapper>
