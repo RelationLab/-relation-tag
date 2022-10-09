@@ -34,6 +34,16 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: hojil@123!
       RDS_HOST: relation-redis
+      GREENPLUM_DB_HOST : ec2-18-142-49-13.ap-southeast-1.compute.amazonaws.com
+      GREENPLUM_DB_PORT : 5432
+      GREENPLUM_DB_NAME : eth
+      GREENPLUM_DB_USERNAME : gpadmin
+      GREENPLUM_DB_PASSWORD :  hojil@123!
+      READ_ONLY_DB_HOST : 127.0.0.1
+      READ_ONLY_DB_PORT : 5432
+      READ_ONLY_DB_NAME : eth
+      READ_ONLY_DB_USERNAME : postgres
+      READ_ONLY_DB_PASSWORD :  hojil@123!
       JOB_IDENTIFIER: relation-tag-query
     build:
       context: ./
