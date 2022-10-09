@@ -19,4 +19,5 @@ public interface IContractService extends IService<Contract> {
     Contract selectByContractAddress(String contractAddress);
 
     Integer selectCountByContractAddress(String contractAddress);
+
 }

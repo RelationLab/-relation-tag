@@ -50,5 +50,10 @@ public class PublicAddressLabelController {
         return addressLabelManager.getAddressLabel(request);
     }
 
-
+//    @PostMapping("address/label-json-gin")
+//    @ApiOperation("get address labels")
+//    @MethodDesc("get address labels")
+//    public List<GetAddressLabelsResponse> jsonGin() {
+//        return addressLabelManager.getAddressLabel(request);
+//    }
 }
