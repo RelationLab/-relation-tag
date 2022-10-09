@@ -5,7 +5,9 @@ metadata:
   labels:
     {{- include "wired-tag-query.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "wired-tag-query.selectorLabels" . | nindent 6 }}
@@ -31,17 +33,35 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env: 
+          env:
             - name: GREENPLUM_DB_HOST
-              value: {{ .Values.greenplum.host | quote }}
+              value: "18.142.49.13"
             - name: GREENPLUM_DB_PORT
-              value: {{ .Values.greenplum.port | quote }}
+              value: "5432"
             - name: GREENPLUM_DB_NAME
-              value: {{ .Values.greenplum.name | quote }}
+              value: "eth"
             - name: GREENPLUM_DB_USERNAME
-              value: {{ .Values.greenplum.username | quote }}
+              value: "gpadmin"
             - name: GREENPLUM_DB_PASSWORD
-              value: {{ .Values.greenplum.password | quote }}
+              value: "PbIzajLzDfQ62"
+            - name: DB_HOST
+              value: {{ .Values.database.host | quote }}
+            - name: DB_NAME
+              value: {{ .Values.database.name | quote }}
+            - name: DB_USERNAME
+              value: {{ .Values.database.username | quote }}
+            - name: DB_PASSWORD
+              value: {{ .Values.database.password | quote }}
+            - name: READ_ONLY_DB_HOST
+              value: {{ .Values.readonlyDatabase.host | quote }}
+            - name: READ_ONLY_DB_NAME
+              value: {{ .Values.readonlyDatabase.name | quote }}
+            - name: READ_ONLY_DB_USERNAME
+              value: {{ .Values.readonlyDatabase.username | quote }}
+            - name: READ_ONLY_DB_PASSWORD
+              value: {{ .Values.readonlyDatabase.password | quote }}
+            - name: RD_HOST
+              value: {{ .Values.redis.host }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
