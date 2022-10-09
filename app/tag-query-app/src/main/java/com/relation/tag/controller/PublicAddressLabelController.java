@@ -1,14 +1,17 @@
 package com.relation.tag.controller;
 
+import com.relation.tag.entity.Product;
 import com.relation.tag.manager.AddressLabelManager;
 import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.response.GetAddressLabelsCountResponse;
 import com.relation.tag.response.GetAddressLabelsResponse;
+import com.relation.tag.service.EsProductRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.extension.annotation.MethodDesc;
+import org.springframework.boot.extension.entity.response.ResponseWrapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,9 @@ import java.util.List;
 public class PublicAddressLabelController {
     @Autowired
     private AddressLabelManager addressLabelManager;
+
+    @Autowired
+    private EsProductRepository esProductRepository;
 
     @PostMapping("address/labels")
     @ApiOperation("get address labels")
@@ -50,5 +56,11 @@ public class PublicAddressLabelController {
         return addressLabelManager.getAddressLabel(request);
     }
 
+    @PostMapping("/addProduct")
+    public ResponseWrapper addProduct(@RequestBody Product product)
+    {
+        esProductRepository.save(product);
+        return ResponseWrapper.success();
+    }
 
 }

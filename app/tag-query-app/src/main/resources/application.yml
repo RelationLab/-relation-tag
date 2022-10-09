@@ -62,6 +62,10 @@ spring:
     password: ${RDS_PASSWORD:}
     database: ${RDS_DATABASE:1}
 
+elasticsearch:
+  rest:
+    uris: http://localhost:9200
+
 # 日志配置
 logging:
   config: classpath:logback-spring-yun.xml
