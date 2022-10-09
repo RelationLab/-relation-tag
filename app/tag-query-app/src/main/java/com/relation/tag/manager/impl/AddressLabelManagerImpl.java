@@ -196,7 +196,19 @@ public class AddressLabelManagerImpl implements AddressLabelManager {
     public void jsonGin() {
         log.info("jsonGin start .....");
         long statTime = System.currentTimeMillis();
-        String sql = "";
+        String sql = "insert\n" +
+                "\tinto\n" +
+                "\taddress_labels_json_gin(address,\n" +
+                "\tlabels,\n" +
+                "\tupdated_at)\n" +
+                "   select\n" +
+                "\taddress,\n" +
+                "\tjsonb_object_agg(label_type, label_name order by label_type desc) as labels,\n" +
+                "\tCURRENT_TIMESTAMP as updated_at\n" +
+                "from\n" +
+                "\taddress_label_gp \n" +
+                "group by\n" +
+                "\taddress;";
         contractService.exceSql(sql);
         log.info("jsonGin end .....time===={}",System.currentTimeMillis()-statTime);
     }
