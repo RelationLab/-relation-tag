@@ -1,0 +1,3 @@
+name: wired-tag-query
+description: Tag query for wired.network
+runtime: nodejs

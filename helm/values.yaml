@@ -14,12 +14,20 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-greenplum:
+database:
   host: ""
-  port: "5432"
-  name: "eth"
-  username: "gpadmin"
+  name: ""
+  username: "postgres"
   password: ""
+
+readonlyDatabase:
+  host: ""
+  name: ""
+  username: "postgres"
+  password: ""
+
+redis:
+  host: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -32,10 +40,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -47,7 +57,8 @@ service:
   type: ClusterIP
   port: 10009
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -58,6 +69,13 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
