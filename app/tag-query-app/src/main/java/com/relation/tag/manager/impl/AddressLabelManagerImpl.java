@@ -198,7 +198,7 @@ public class AddressLabelManagerImpl implements AddressLabelManager {
         long statTime = System.currentTimeMillis();
         String sql = "insert\n" +
                 "\tinto\n" +
-                "\taddress_labels_json_gin(address,\n" +
+                "\taddress_labels_json_gin_1009(address,\n" +
                 "\tlabels,\n" +
                 "\tupdated_at)\n" +
                 "   select\n" +
