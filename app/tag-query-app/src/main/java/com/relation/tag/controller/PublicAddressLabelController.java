@@ -1,12 +1,10 @@
 package com.relation.tag.controller;
 
-import com.relation.tag.entity.Product;
 import com.relation.tag.manager.AddressLabelManager;
 import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.response.GetAddressLabelsCountResponse;
 import com.relation.tag.response.GetAddressLabelsResponse;
-import com.relation.tag.service.EsProductRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,6 @@ public class PublicAddressLabelController {
     @Autowired
     private AddressLabelManager addressLabelManager;
 
-    @Autowired
-    private EsProductRepository esProductRepository;
-
     @PostMapping("address/labels")
     @ApiOperation("get address labels")
     @MethodDesc("get address labels")
@@ -55,12 +50,4 @@ public class PublicAddressLabelController {
     public List<GetAddressLabelsResponse> getAddressLabel(@RequestBody GetAddressLabelRequest request) {
         return addressLabelManager.getAddressLabel(request);
     }
-
-    @PostMapping("/addProduct")
-    public ResponseWrapper addProduct(@RequestBody Product product)
-    {
-        esProductRepository.save(product);
-        return ResponseWrapper.success();
-    }
-
 }

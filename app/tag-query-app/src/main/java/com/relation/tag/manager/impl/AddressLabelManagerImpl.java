@@ -154,41 +154,5 @@ public class AddressLabelManagerImpl implements AddressLabelManager {
             return 0L;
         }
         return addressLabelGpService.findLabelsAddressCount(labels);
-
-//        boolean sourceSYSTEMFlag = false;
-//        for (Label label : labels) {
-//            if (StringUtils.equals(label.getSource(), DataSourceEnum.SYSTEM.name())) {
-//                sourceSYSTEMFlag = true;
-//                break;
-//            }
-//        }
-//        if (!sourceSYSTEMFlag) {
-//            if (GetModeEnum.valueOf(request.getInput().getMode()) == GetModeEnum.PRECISION) {
-//                return readOnlyAddressLabelService.selectContainLabelNamesCount(labels
-//                        , request.getInput().getBaseAddress(), request.getInput().getLimit(), request.getInput().getLabels().size());
-//            } else {
-//                return readOnlyAddressLabelService.selectContainOrLabelNamesCount(labels
-//                        , request.getInput().getBaseAddress(), request.getInput().getLimit(), request.getInput().getLabels().size());
-//            }
-//        }
-//
-//        if (GetModeEnum.valueOf(request.getInput().getMode()) == GetModeEnum.PRECISION) {
-//            Long count = readOnlyAddressLabelService.selectContainLabelNamesCount(labels
-//                    , request.getInput().getBaseAddress(), request.getInput().getLimit(), request.getInput().getLabels().size());
-//            if (count != null && count.longValue() >= 10000 && request.getInput().getLabels().size() == 1) {
-//                return readOnlyAddressLabelService.selectOrLabelNamesCount(labels, request.getInput().getBaseAddress(), request.getInput().getLimit());
-//            }
-//            return count;
-//        }
-//        Long count = readOnlyAddressLabelService.selectOrLabelNamesCount(labels, request.getInput().getBaseAddress(), request.getInput().getLimit());
-//        if (count != null && count.longValue() < 10000) {
-//            if (request.getInput().getLabels().size() == 1) {
-//                return readOnlyAddressLabelService.selectContainLabelNamesCount(labels
-//                        , request.getInput().getBaseAddress(), request.getInput().getLimit(), request.getInput().getLabels().size());
-//            }
-//            return readOnlyAddressLabelService.selectContainLabelNamesOrCount(labels
-//                    , request.getInput().getBaseAddress(), request.getInput().getLimit(), request.getInput().getLabels().size());
-//        }
-//        return count;
     }
 }
