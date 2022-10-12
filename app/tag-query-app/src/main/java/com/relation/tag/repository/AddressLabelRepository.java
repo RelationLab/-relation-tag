@@ -1,4 +1,4 @@
-package com.relation.tag.opensearch.repository;
+package com.relation.tag.repository;
 
 import com.relation.tag.entity.AddressLabel;
 import org.springframework.data.repository.CrudRepository;

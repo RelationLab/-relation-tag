@@ -1,6 +1,6 @@
 package com.relation.tag;
 
-import com.relation.tag.opensearch.service.AddressLabelService;
+import com.relation.tag.service.AddressLabelService;
 import org.assertj.core.util.Lists;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package com.relation.tag.opensearch.service;
+package com.relation.tag.service;
 
 import com.relation.tag.entity.AddressLabel;
-import com.relation.tag.opensearch.repository.AddressLabelRepository;
+import com.relation.tag.repository.AddressLabelRepository;
 import org.apache.lucene.search.join.ScoreMode;
 import org.opensearch.data.client.orhlc.NativeSearchQueryBuilder;
 import org.opensearch.index.query.BoolQueryBuilder;
