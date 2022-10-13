@@ -33,6 +33,8 @@
                 <type>pom</type>
             </dependency>
 
+           -->
+
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
@@ -43,7 +45,7 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>1.2.11</version>
-            </dependency>-->
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

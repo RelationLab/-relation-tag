@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relation.tag.mapper.primary.UserInfoMapper">
+    <sql id="TableName">user_info</sql>
+
+    <select id="getByAddress" resultType="com.relation.tag.entity.postgresql.UserInfo">
+        select *
+        from user_info where address in (<foreach collection="list" item="item" separator=",">
+        #{item}
+    </foreach> )
+    </select>
+</mapper>

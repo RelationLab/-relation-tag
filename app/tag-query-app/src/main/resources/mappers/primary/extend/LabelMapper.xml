@@ -24,7 +24,7 @@
         description,
         run_order
         from <include refid="TableName"/> where name in
-        (<foreach collection="list" item="item" separator=",">
+        (<foreach collection="collection" item="item" separator=",">
         #{item}
     </foreach> )
     </select>
