@@ -1,6 +1,6 @@
 server:
   port: ${PORT:10009}
-  base-url: /api
+  base-url: /ugc
 
 spring:
   application:
@@ -25,8 +25,8 @@ spring:
 
 opensearch:
   rest:
-    uris: http://localhost:9200
-
+    host: localhost
+    port: 2443
 # 日志配置
 logging:
   config: classpath:logback-spring-yun.xml

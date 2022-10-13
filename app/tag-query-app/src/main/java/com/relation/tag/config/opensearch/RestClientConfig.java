@@ -5,6 +5,7 @@ import org.opensearch.client.RestHighLevelClient;
 import org.opensearch.data.client.orhlc.AbstractOpensearchConfiguration;
 import org.opensearch.data.client.orhlc.ClientConfiguration;
 import org.opensearch.data.client.orhlc.RestClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,13 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class RestClientConfig extends AbstractOpensearchConfiguration {
 
-    //    @Value("${spring.datasource.ssh.forward.from-host}")
-    private String host = "localhost";
-    //    @Value("${spring.datasource.ssh.forward.from-port}")
-    private String port = "2443";
-    private static final String USER_NAME = "";
-    private static final String USER_PASS = "";
-
+    @Value("${spring.datasource.ssh.forward.from-host}")
+    private String host;
+    @Value("${spring.datasource.ssh.forward.from-port}")
+    private String port;
     @Override
     @Bean
     public RestHighLevelClient opensearchClient() {
