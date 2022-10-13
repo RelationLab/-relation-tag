@@ -1,4 +1,4 @@
-package com.relation.tag.service;
+package com.relation.tag.manager.impl;
 
 import com.relation.tag.entity.opensearch.AddressLabel;
 import com.relation.tag.entity.postgresql.Contract;
@@ -14,6 +14,10 @@ import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.request.Page;
 import com.relation.tag.response.GetAddressLabelsResponse;
+import com.relation.tag.manager.AddressLabelManager;
+import com.relation.tag.service.ContractService;
+import com.relation.tag.service.LabelService;
+import com.relation.tag.service.UserInfoService;
 import com.relation.tag.vo.AddressInfo;
 import com.relation.tag.vo.LabelInfo;
 import com.relation.tag.vo.Labels;
@@ -41,7 +45,7 @@ import static org.opensearch.index.query.QueryBuilders.nestedQuery;
 import static org.opensearch.index.query.QueryBuilders.termQuery;
 
 @Service
-public class AddressLabelService {
+public class AddressLabelManagerImpl implements AddressLabelManager {
     @Autowired
     private AddressLabelRepository repository;
 
@@ -49,26 +53,27 @@ public class AddressLabelService {
     private ElasticsearchOperations elasticsearchOperations;
 
     @Autowired
-    private LabelMapper labelMapper;
+    private LabelService labelService;
 
     @Autowired
-    private ContractMapper contractMapper;
+    private ContractService contractService;
 
     @Autowired
-    private UserInfoMapper userInfoMapper;
+    private UserInfoService userInfoService;
 
 
+    @Override
     public List<GetAddressLabelsResponse> findByAddress(GetAddressLabelRequest request) {
         AddressLabel addressLabel = repository.findByAddress(request.getInput().getAddress());
         if (addressLabel == null) {
             return null;
         }
-        List<UserInfo> userInfos = userInfoMapper.getByAddress(Lists.newArrayList(addressLabel.getAddress()));
+        List<UserInfo> userInfos = userInfoService.getByAddress(Lists.newArrayList(addressLabel.getAddress()));
         UserInfo userInfo = CollectionUtils.isEmpty(userInfos) ? null : userInfos.get(0);
-        Integer count = contractMapper.selectCountByContractAddress(addressLabel.getAddress());
+        Integer count = contractService.selectCountByContractAddress(addressLabel.getAddress());
         boolean isContract = count > 0 ? true : false;
         List<String> labelNames = CollectionUtils.isEmpty(addressLabel.getLabels()) ? null : addressLabel.getLabels().stream().map(Labels::getName).collect(Collectors.toList());
-        List<Label> labelList = labelMapper.selectsByName(labelNames);
+        List<Label> labelList = labelService.selectsByName(labelNames);
         List<LabelInfo> labelInfos = labelList.stream().map(item -> LabelInfo.builder()
                 .content(item.getContent())
                 .name(item.getName())
@@ -145,10 +150,11 @@ public class AddressLabelService {
         });
     }
 
+    @Override
     public List<GetAddressLabelsResponse> getAddressLabels(GetAddressLabelsRequest request) {
         GetAddressLabelsRequest.Input input = request.getInput();
         List<String> inputLabels = input.getLabels();
-        List<Label> labels = labelMapper.selectsByName(inputLabels);
+        List<Label> labels = labelService.selectsByName(inputLabels);
         if (CollectionUtils.isEmpty(labels) || labels.size() != inputLabels.size()) {
             throw new RuntimeException(ResponseCodeEnum.ERROR_NOT_FOUNT_LABEL.errorMessage(), null);
         }
@@ -159,15 +165,15 @@ public class AddressLabelService {
         Query searchQuery = getNestedQuery(input.getLabels(), input.getMode());
         List<AddressLabel> addressLabels = findByLabels(input, searchQuery);
         List<String> addressList = addressLabels.stream().map(AddressLabel::getAddress).collect(Collectors.toList());
-        List<Contract> contracts = contractMapper.selectByContractAddresses(addressList);
+        List<Contract> contracts = contractService.selectByContractAddresses(addressList);
         Map<String, Contract> contractMap = contracts.stream().collect(Collectors.toMap(Contract::getContractAddress, Function.identity()));
         Set<String> labelNames = Sets.newHashSet();
         addressLabels.forEach(item -> {
             labelNames.addAll(item.getLabels().stream().map(Labels::getName).collect(Collectors.toSet()));
         });
-        List<Label> labelList = labelMapper.selectsByName(labelNames);
+        List<Label> labelList = labelService.selectsByName(labelNames);
         Map<String, Label> labelNamesMap = labelList.stream().collect(Collectors.toMap(Label::getName, Function.identity()));
-        List<UserInfo> userInfos = userInfoMapper.getByAddress(addressList);
+        List<UserInfo> userInfos = userInfoService.getByAddress(addressList);
         Map<String, UserInfo> userInfoMap = userInfos.stream().collect(Collectors.toMap(UserInfo::getAddress, Function.identity()));
 
         return addressLabels.stream().map(item -> {
@@ -184,13 +190,14 @@ public class AddressLabelService {
         return addressLabels.stream().map(SearchHit::getContent).collect(Collectors.toList());
     }
 
+    @Override
     public Long getAddressCount(GetAddressLabelsRequest request) {
         GetAddressLabelsRequest.Input input = request.getInput();
         List<String> labelNames = input.getLabels();
         if (CollectionUtils.isEmpty(labelNames)) {
             return 0L;
         }
-        List<Label> labels = labelMapper.selectsByName(labelNames);
+        List<Label> labels = labelService.selectsByName(labelNames);
         if (labels == null || CollectionUtils.isEmpty(labels)) {
             return 0L;
         }

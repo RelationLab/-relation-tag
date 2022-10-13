@@ -3,7 +3,6 @@ package com.relation.tag;
 import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.response.GetAddressLabelsResponse;
-import com.relation.tag.service.AddressLabelService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

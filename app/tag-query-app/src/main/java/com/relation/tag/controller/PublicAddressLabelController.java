@@ -4,7 +4,7 @@ import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.response.GetAddressLabelsCountResponse;
 import com.relation.tag.response.GetAddressLabelsResponse;
-import com.relation.tag.service.AddressLabelService;
+import com.relation.tag.manager.AddressLabelManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 @Api("address label相关API")
 public class PublicAddressLabelController {
     @Autowired
-    private AddressLabelService addressLabelService;
+    private AddressLabelManager addressLabelService;
     @PostMapping("address/labels")
     @ApiOperation("get address labels")
     public List<GetAddressLabelsResponse> getAddressLabels(@RequestBody GetAddressLabelsRequest request, HttpServletResponse response) {
