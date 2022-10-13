@@ -17,5 +17,5 @@ import java.util.List;
 @Repository
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
-    List getByAddress(List<String> addressList);
+    List<UserInfo>  getByAddress(List<String> addressList);
 }

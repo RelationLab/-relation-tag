@@ -10,5 +10,5 @@ import java.util.List;
 public interface ContractMapper extends BaseMapper<Contract> {
     List<Contract> selectByContractAddresses(List<String> list);
 
-    void exceSql(String exceSqlStr);
+    Integer selectCountByContractAddress(String address);
 }

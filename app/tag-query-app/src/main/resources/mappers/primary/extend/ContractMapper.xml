@@ -17,4 +17,9 @@
         #{item}
     </foreach> )
     </select>
+
+    <select id="selectCountByContractAddress" resultType="java.lang.Integer">
+        select count(1)
+        from contract where contract_address =#{address}
+    </select>
 </mapper>

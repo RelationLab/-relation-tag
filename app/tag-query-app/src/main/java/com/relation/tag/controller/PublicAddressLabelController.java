@@ -2,6 +2,7 @@ package com.relation.tag.controller;
 
 import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
+import com.relation.tag.response.GetAddressLabelsCountResponse;
 import com.relation.tag.response.GetAddressLabelsResponse;
 import com.relation.tag.service.AddressLabelService;
 import io.swagger.annotations.Api;
@@ -33,5 +34,11 @@ public class PublicAddressLabelController {
     @ApiOperation("get address labels")
     public List<GetAddressLabelsResponse> getAddressLabel(@RequestBody GetAddressLabelRequest request) {
         return addressLabelService.findByAddress(request);
+    }
+
+    @ApiOperation("get address labels count")
+    @RequestMapping("address/labels/count")
+    public GetAddressLabelsCountResponse addressCount(@RequestBody GetAddressLabelsRequest request) {
+        return GetAddressLabelsCountResponse.builder().count(addressLabelService.getAddressCount(request)).build();
     }
 }

@@ -63,29 +63,26 @@ public class AddressLabelService {
         if (addressLabel == null) {
             return null;
         }
-
-        UserInfo userInfo = null;//readOnlyUserInfoService.getByAddress(AddressLabelVO.getAddress());
-        Integer count = null;//contractService.selectCountByContractAddress(AddressLabelVO.getAddress());
+        List<UserInfo> userInfos = userInfoMapper.getByAddress(Lists.newArrayList(addressLabel.getAddress()));
+        UserInfo userInfo = CollectionUtils.isEmpty(userInfos) ? null : userInfos.get(0);
+        Integer count = contractMapper.selectCountByContractAddress(addressLabel.getAddress());
         boolean isContract = count > 0 ? true : false;
         List<String> labelNames = CollectionUtils.isEmpty(addressLabel.getLabels()) ? null : addressLabel.getLabels().stream().map(Labels::getName).collect(Collectors.toList());
-//        List<Label> labelList = readOnlyLabelService.selectsByName(labelNames);
-//        List<LabelInfo> labelInfos = labelList.stream().map(item -> LabelInfo.builder()
-//                .content(item.getContent())
-//                .name(item.getName())
-//                .source(item.getSource())
-//                .build()).collect(Collectors.toList());
-//
-//        GetAddressLabelsResponse getAddressLabelsResponse = GetAddressLabelsResponse.builder()
-//                .address(AddressInfo.builder()
-//                        .value(AddressLabelVO.getAddress())
-//                        .isContract(isContract)
-//                        .build())
-//                .labels(labelInfos)
-//                .build();
+        List<Label> labelList = labelMapper.selectsByName(labelNames);
+        List<LabelInfo> labelInfos = labelList.stream().map(item -> LabelInfo.builder()
+                .content(item.getContent())
+                .name(item.getName())
+                .source(item.getSource())
+                .build()).collect(Collectors.toList());
         return Lists.newArrayList(GetAddressLabelsResponse.builder()
                 .userName(Objects.nonNull(userInfo) ? userInfo.getName() : null)
                 .userIntroduction(Objects.nonNull(userInfo) ? userInfo.getIntroduction() : null)
                 .userTwitter(Objects.nonNull(userInfo) ? userInfo.getTwitter() : null)
+                .address(AddressInfo.builder()
+                        .value(addressLabel.getAddress())
+                        .isContract(isContract)
+                        .build())
+                .labels(labelInfos)
                 .build());
     }
 
@@ -94,13 +91,20 @@ public class AddressLabelService {
         searchQuery.setPageable(PageRequest.of(page.getPage(), page.getPageSize(), Sort.by(Sort.Order.asc("address"))));
     }
 
-    private Query getNestedQuery(List<String> labels) {
+    private Query getNestedQuery(List<String> labels, String mode) {
         BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
         labels.forEach(item -> {
-            queryBuilder.should(nestedQuery(
-                    "labels",
-                    termQuery("labels.name", item),
-                    ScoreMode.None));
+            if (GetModeEnum.valueOf(mode) == GetModeEnum.PRECISION) {
+                queryBuilder.must(nestedQuery(
+                        "labels",
+                        termQuery("labels.name", item),
+                        ScoreMode.None));
+            } else {
+                queryBuilder.should(nestedQuery(
+                        "labels",
+                        termQuery("labels.name", item),
+                        ScoreMode.None));
+            }
         });
         return new NativeSearchQueryBuilder()
                 .withQuery(queryBuilder)
@@ -149,11 +153,11 @@ public class AddressLabelService {
             throw new RuntimeException(ResponseCodeEnum.ERROR_NOT_FOUNT_LABEL.errorMessage(), null);
         }
         Set<String> labelTypes = labels.stream().map(Label::getType).collect(Collectors.toSet());
-        if (labelTypes.size() < labels.size()
-                && GetModeEnum.valueOf(request.getInput().getMode()) == GetModeEnum.PRECISION) {
+        if (labelTypes.size() < labels.size() && GetModeEnum.valueOf(input.getMode()) == GetModeEnum.PRECISION) {
             return new ArrayList<>();
         }
-        List<AddressLabel> addressLabels = findByLabels(input);
+        Query searchQuery = getNestedQuery(input.getLabels(), input.getMode());
+        List<AddressLabel> addressLabels = findByLabels(input, searchQuery);
         List<String> addressList = addressLabels.stream().map(AddressLabel::getAddress).collect(Collectors.toList());
         List<Contract> contracts = contractMapper.selectByContractAddresses(addressList);
         Map<String, Contract> contractMap = contracts.stream().collect(Collectors.toMap(Contract::getContractAddress, Function.identity()));
@@ -171,13 +175,31 @@ public class AddressLabelService {
         }).collect(Collectors.toList());
     }
 
-    private List<AddressLabel> findByLabels(GetAddressLabelsRequest.Input input) {
-        Query searchQuery = getNestedQuery(input.getLabels());
+    private List<AddressLabel> findByLabels(GetAddressLabelsRequest.Input input, Query searchQuery) {
         buildPage(searchQuery, Page.builder().page(input.getBaseId().intValue()).pageSize(input.getLimit()).build());
         SearchHits<AddressLabel> addressLabels = elasticsearchOperations.search(searchQuery, AddressLabel.class);
         if (addressLabels == null) {
             return new ArrayList<>();
         }
         return addressLabels.stream().map(SearchHit::getContent).collect(Collectors.toList());
+    }
+
+    public Long getAddressCount(GetAddressLabelsRequest request) {
+        GetAddressLabelsRequest.Input input = request.getInput();
+        List<String> labelNames = input.getLabels();
+        if (CollectionUtils.isEmpty(labelNames)) {
+            return 0L;
+        }
+        List<Label> labels = labelMapper.selectsByName(labelNames);
+        if (labels == null || CollectionUtils.isEmpty(labels)) {
+            return 0L;
+        }
+        Set<String> labelTypes = labels.stream().map(Label::getType).collect(Collectors.toSet());
+        if (labelTypes.size() < labels.size()
+                && GetModeEnum.valueOf(request.getInput().getMode()) == GetModeEnum.PRECISION) {
+            return 0L;
+        }
+        Query searchQuery = getNestedQuery(labelNames, input.getMode());
+        return elasticsearchOperations.count(searchQuery, AddressLabel.class);
     }
 }
