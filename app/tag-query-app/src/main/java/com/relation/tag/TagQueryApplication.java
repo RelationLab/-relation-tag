@@ -1,7 +1,7 @@
 package com.relation.tag;
 
-import com.relation.tag.entity.AddressLabel;
-import com.relation.tag.entity.Page;
+import com.relation.tag.request.GetAddressLabelsRequest;
+import com.relation.tag.response.GetAddressLabelsResponse;
 import com.relation.tag.service.AddressLabelService;
 import org.assertj.core.util.Lists;
 import org.springframework.boot.SpringApplication;
@@ -18,8 +18,10 @@ public class TagQueryApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(TagQueryApplication.class, args);
         AddressLabelService addressLabelService = context.getBean(AddressLabelService.class);
-        List<String> labels = Lists.newArrayList("ALL_ALL_ALL_ACTIVITY_L1");
-        List<AddressLabel> list =  addressLabelService.findByLabels(labels, Page.builder().page(0).pageSize(10).build());
+        GetAddressLabelsRequest.Input input = GetAddressLabelsRequest.Input.builder().baseId(100L)
+                .labels( Lists.newArrayList("ALL_ALL_ALL_ACTIVITY_L1")).limit(10).build();
+        GetAddressLabelsRequest request = GetAddressLabelsRequest.builder().input(input).build();
+        List<GetAddressLabelsResponse> list =  addressLabelService.getAddressLabels(request);
         System.out.println(list);
     }
 

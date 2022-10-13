@@ -3,7 +3,7 @@
 <mapper namespace="com.relation.tag.mapper.primary.ContractMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.relation.tag.entity.Contract">
+    <resultMap id="BaseResultMap" type="com.relation.tag.entity.postgresql.Contract">
         <id column="id" property="id" />
         <result column="contract_address" property="contractAddress" />
         <result column="symbol" property="symbol" />

@@ -1,5 +1,7 @@
-package com.relation.tag.entity;
+package com.relation.tag.entity.opensearch;
 
+import com.relation.tag.vo.Assets;
+import com.relation.tag.vo.Labels;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

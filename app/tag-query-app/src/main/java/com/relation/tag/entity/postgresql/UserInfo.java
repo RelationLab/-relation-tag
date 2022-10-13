@@ -1,4 +1,4 @@
-package com.relation.tag.vo;
+package com.relation.tag.entity.postgresql;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;

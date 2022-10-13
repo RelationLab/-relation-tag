@@ -1,6 +1,5 @@
 package com.relation.tag.controller;
 
-import com.relation.tag.entity.AddressLabel;
 import com.relation.tag.request.GetAddressLabelRequest;
 import com.relation.tag.request.GetAddressLabelsRequest;
 import com.relation.tag.response.GetAddressLabelsResponse;

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relation.tag.mapper.primary.LabelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.relation.tag.entity.postgresql.Label">
+        <id column="id" property="id" />
+        <result column="owner" property="owner" />
+        <result column="type" property="type" />
+        <result column="name" property="name" />
+        <result column="source" property="source" />
+        <result column="visible_type" property="visibleType" />
+        <result column="strategy" property="strategy" />
+        <result column="content" property="content" />
+        <result column="rule" property="rule" />
+        <result column="default_rule" property="defaultRule" />
+        <result column="rule_type" property="ruleType" />
+        <result column="rule_group" property="ruleGroup" />
+        <result column="value_type" property="valueType" />
+        <result column="description" property="description" />
+        <result column="run_order" property="runOrder" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="removed" property="removed" />
+        <result column="status" property="status" />
+        <result column="error_msg" property="errorMsg" />
+        <result column="refresh_time" property="refreshTime" />
+        <result column="mark_type" property="markType" />
+        <result column="ar_tx_hash" property="arTxHash" />
+        <result column="ar_status" property="arStatus" />
+        <result column="ar_error_msg" property="arErrorMsg" />
+        <result column="ar_error_count" property="arErrorCount" />
+    </resultMap>
+
+</mapper>

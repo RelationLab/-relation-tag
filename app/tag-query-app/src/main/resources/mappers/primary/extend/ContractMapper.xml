@@ -3,7 +3,7 @@
 <mapper namespace="com.relation.tag.mapper.primary.ContractMapper">
     <sql id="TableName">contract</sql>
 
-    <select id="selectByContractAddresses" resultType="com.relation.tag.entity.Contract">
+    <select id="selectByContractAddresses" resultType="com.relation.tag.entity.postgresql.Contract">
         select id,
                contract_address,
                symbol,

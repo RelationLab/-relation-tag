@@ -1,4 +1,4 @@
-package com.relation.tag.config;
+package com.relation.tag.config.opensearch;
 
 import lombok.extern.slf4j.Slf4j;
 import org.opensearch.client.RestHighLevelClient;

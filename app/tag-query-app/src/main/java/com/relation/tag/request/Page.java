@@ -1,4 +1,4 @@
-package com.relation.tag.entity;
+package com.relation.tag.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
