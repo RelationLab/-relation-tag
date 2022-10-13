@@ -20,6 +20,8 @@ services:
       DB_USERNAME: relationLab
       DB_PASSWORD: 123456789
       RDS_HOST: relation-redis
+      OPENSEARCH_HOST: localhost
+      OPENSEARCH_PORT: 443
       HOSTNAME: relation-tag-query
     build:
       context: ./
